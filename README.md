@@ -62,15 +62,15 @@ Operators:
 Build DAGs using Astro Python SDK Operators. Configure connections on Airflow UI.
 
 Connections:
-- google_cloud_default
+- google_cloud_default  
 ws-astro-python-sdk@silver-charmer-243611.iam.gserviceaccount.com
 
-- snowflake_default
+- snowflake_default  
 
-- aws_default
-endpoint_url: http://20.122.206.152
-accessKey: data-lake
-secretKey: 12620ee6-2162-11ee-be56-0242ac120002
+- aws_default  
+endpoint_url: http://20.122.206.152  
+accessKey: data-lake  
+secretKey: 12620ee6-2162-11ee-be56-0242ac120002  
 
 Use-Cases:
 - Load = allows loading from different object-storage systems to destinations.  
@@ -87,4 +87,11 @@ Use-Cases:
   - check-column-df-city-age 
   - check-table-stripe
   
-- Export = 
+- Export = allows you to write sql tables to csv or parquet files and store them locally, on s3, or on gcs.
+  - s3-vehicle-snowflake-export-parquet
+  - s3-vehicle-postgres-export-parquet
+
+### Building an End to End Data Pipeline using Astro Python SDK
+```shell
+
+```
