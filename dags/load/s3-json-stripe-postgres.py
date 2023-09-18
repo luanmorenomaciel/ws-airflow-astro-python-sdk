@@ -6,15 +6,11 @@ Doesn't apply any transformation during loading time.
 """
 
 # import libraries
-import os
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
-from airflow.decorators import dag, task
+from airflow.decorators import dag
 from airflow.utils.task_group import TaskGroup
 from airflow.operators.empty import EmptyOperator
-
-import pandas as pd
-from pandas import DataFrame
 
 from astro import sql as aql
 from astro.files import File

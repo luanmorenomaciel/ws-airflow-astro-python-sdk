@@ -6,15 +6,11 @@ Doesn't apply any transformation during loading time.
 """
 
 # import libraries
-import os
 from datetime import datetime, timedelta
 
-from airflow.decorators import dag, task
+from airflow.decorators import dag
 
-from airflow.operators.dummy import DummyOperator
-
-import pandas as pd
-from pandas import DataFrame
+from airflow.operators.empty import EmptyOperator
 
 from astro import sql as aql
 from astro.files import File
@@ -47,12 +43,12 @@ default_args = {
 def load_data():
 
     # init task
-    init_data_load = DummyOperator(task_id="init")
+    init_data_load = EmptyOperator(task_id="init")
 
     # load data
     user_data = aql.load_file(
         input_file=File(path=LANDING_ZONE_PATH + "users", filetype=FileType.JSON, conn_id=SOURCE_CONN_ID),
-        output_table=Table(name="users", conn_id=OUTPUT_CONN_ID),
+        output_table=Table(metadata=Metadata(schema="public"), name="users", conn_id=OUTPUT_CONN_ID),
         task_id="user_data",
         if_exists="replace",
         use_native_support=True,
@@ -60,7 +56,7 @@ def load_data():
     )
 
     # finish task
-    finish_data_load = DummyOperator(task_id="finish")
+    finish_data_load = EmptyOperator(task_id="finish")
 
     # define sequence
     init_data_load >> user_data >> finish_data_load

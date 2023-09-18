@@ -45,7 +45,7 @@ with DAG(
             "name": {"null_check": {"geq_to": 0, "leq_to": 1}},
             "city": {
                 "null_check": {
-                    "equal_to": 1,
+                    "equal_to": 0,
                 },
             },
             "age": {

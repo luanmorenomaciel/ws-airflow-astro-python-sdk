@@ -9,14 +9,10 @@ of sql processing.
 """
 
 # import libraries
-import os
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
-from airflow.decorators import dag, task
+from airflow.decorators import dag
 from airflow.operators.empty import EmptyOperator
-
-import pandas as pd
-from pandas import DataFrame
 
 from astro import sql as aql
 from astro.files import File
@@ -78,7 +74,7 @@ def transform_etl():
     # users
     df_user = aql.load_file(
         task_id="df_user",
-        input_file=File(path="s3://landing/user/user_2023_4_13", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/user/user_2023_8_31_13_47_9", filetype=FileType.JSON, conn_id=S3_CONN_ID),
         output_table=Table(name="user", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro"),),
         if_exists="replace",
         use_native_support=True,
@@ -88,7 +84,7 @@ def transform_etl():
     # subscriptions
     df_subscription = aql.load_file(
         task_id="df_subscription",
-        input_file=File(path="s3://landing/subscription/subscription_2023_4_13", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/subscription/subscription_2023_7_17_13_30_54", filetype=FileType.JSON, conn_id=S3_CONN_ID),
         output_table=Table(name="subscription", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro"),),
         if_exists="replace",
         use_native_support=True,

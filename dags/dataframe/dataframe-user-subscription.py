@@ -6,19 +6,16 @@ a pandas dataframe operation.
 """
 
 # import libraries
-import os
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 from airflow.decorators import dag, task
 from airflow.operators.empty import EmptyOperator
 
 import pandas as pd
-from pandas import DataFrame
 
 from astro import sql as aql
 from astro.files import File
 from astro.constants import FileType
-from astro.sql.table import Table, Metadata
 
 # connections
 S3_CONN_ID = "aws_default"
@@ -38,7 +35,7 @@ def most_active_plans(subscription: pd.DataFrame):
     print(f"total number of records: {len(subscription)}")
     grouped_plans = subscription.groupby(['plan'])['plan'].count()
     print(f"platform plans: {grouped_plans}")
-    return grouped_plans
+    return grouped_plans.to_json()
 
 
 # declare dag
@@ -61,7 +58,7 @@ def dataframe_etl():
     # load files {subscription}
     subscription_file = aql.load_file(
         task_id="subscription_file",
-        input_file=File(path="s3://landing/subscription/subscription_2023_4_13_18", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/subscription/subscription_2023_7_17_13_30_54", filetype=FileType.JSON, conn_id=S3_CONN_ID),
     )
 
     # invoke dataframe function {pandas}

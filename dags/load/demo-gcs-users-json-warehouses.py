@@ -1,11 +1,10 @@
-# TODO always develop your DAGs using TaskFlowAPI
 """
 Tasks performed by this DAG:
 """
 
 # import libraries
 from datetime import datetime, timedelta
-from airflow.decorators import dag, task
+from airflow.decorators import dag
 from airflow.operators.empty import EmptyOperator
 
 from astro import sql as aql

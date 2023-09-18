@@ -5,13 +5,18 @@ apply transformations before loading into the data warehouse.
 
 This pipeline shows how to store into a dataframe without
 specifying an output table.
+
+AIRFLOW__ASTRO_SDK__XCOM_STORAGE_CONN_ID='<your-database-connection-id>'
+AIRFLOW__ASTRO_SDK__XCOM_STORAGE_URL='<your-storage-folder-name>'
+
+AIRFLOW__ASTRO_SDK__XCOM_STORAGE_CONN_ID=<your_aws_conn>
+AIRFLOW__ASTRO_SDK__XCOM_STORAGE_URL='s3://<your-bucket>/xcom/'
 """
 
 # import libraries
-import os
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
-from airflow.decorators import dag, task
+from airflow.decorators import dag
 from airflow.operators.empty import EmptyOperator
 
 from astro import sql as aql
@@ -49,12 +54,12 @@ def pandas_dataframe():
 
     df_user = aql.load_file(
         task_id="df_user",
-        input_file=File(path="s3://landing/user/user_2023_4_13", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/user/user_2023_8_31_13_47_9", filetype=FileType.JSON, conn_id=S3_CONN_ID),
     )
 
     df_subscription = aql.load_file(
         task_id="df_subscription",
-        input_file=File(path="s3://landing/subscription/subscription_2023_4_13", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/subscription/subscription_2023_7_17_13_30_54", filetype=FileType.JSON, conn_id=S3_CONN_ID),
     )
 
     # define sequence
