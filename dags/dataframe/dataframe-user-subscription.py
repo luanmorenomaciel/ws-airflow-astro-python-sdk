@@ -19,7 +19,6 @@ from astro.constants import FileType
 
 # connections
 S3_CONN_ID = "aws_default"
-OUTPUT_CONN_ID = "snowflake_default"
 
 # default args & init dag
 default_args = {

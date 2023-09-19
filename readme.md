@@ -15,16 +15,49 @@ The workshop will cover the following topics:
 - Developing DAGs with the Astro Python SDK
 - Building and end-to-end data pipeline with the Astro Python SDK
 
-### Install & Init astro-cli for dev env
-Install and init astro-cli to develop locally
+### 1) Install Docker Desktop
+Install docker desktop to run airflow locally
+```shell
+https://www.docker.com/products/docker-desktop/
+```
+
+### 2) Install Astro-CLI
+Install astro-cli to develop DAGs
 ```shell
 https://github.com/astronomer/astro-cli
+
+curl -sSL install.astronomer.io | sudo bash -s
 brew install astro
 
 astro dev init
-requirement.txt
-astro dev start
+```
 
+### 3) Add Airflow Connections
+Add these configurations into the airflow_settings.yaml file
+```yaml
+airflow:
+  connections:
+    - conn_id: aws_default
+      conn_type: aws
+      conn_schema:
+      conn_login: data-lake
+      conn_password: 12620ee6-2162-11ee-be56-0242ac120002
+      conn_port:
+      conn_extra:
+        endpoint_url: http://20.122.206.152
+    - conn_id: postgres_conn
+      conn_type: postgres
+      conn_host: postgres
+      conn_schema: postgres
+      conn_login: postgres
+      conn_password: postgres
+      conn_port: 5432
+```
+
+### 4) Init Airflow Project
+Initialize project using the astro-cli
+```shell
+astro dev start
 http://localhost:8080
 ```
 
@@ -58,14 +91,9 @@ Operators:
 - get_file_list
 
 ### DAGs & Astro Python SDK Operators
-Build DAGs using Astro Python SDK Operators. Configure connections on Airflow UI.
+Build DAGs using Astro Python SDK Operators.
 
 Connections:
-- google_cloud_default  
-ws-astro-python-sdk@silver-charmer-243611.iam.gserviceaccount.com
-
-- snowflake_default  
-
 - aws_default  
 endpoint_url: http://20.122.206.152  
 accessKey: data-lake  
@@ -73,8 +101,8 @@ secretKey: 12620ee6-2162-11ee-be56-0242ac120002
 
 Use-Cases:
 - Load = allows loading from different object-storage systems to destinations.  
-    - gcs-users-json-snowflake
-    - s3-user-subscription-pandas-df
+  - s3-json-stripe-postgres
+  - s3-user-subscription-pandas-df
   
 - DataFrame = allows you to run python transformations 
   - dataframe-user-subscription
@@ -87,7 +115,6 @@ Use-Cases:
   - check-table-stripe
   
 - Export = allows you to write sql tables to csv or parquet files and store them locally, on s3, or on gcs.
-  - s3-vehicle-snowflake-export-parquet
   - s3-vehicle-postgres-export-parquet
 
 ### Building an End to End Data Pipeline using Astro Python SDK

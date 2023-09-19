@@ -1,16 +1,13 @@
 """
 """
 
-# import libraries
-import os
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
-from airflow.decorators import dag, task
+from airflow.decorators import dag
 from airflow.models.baseoperator import chain
 from airflow.operators.empty import EmptyOperator
 
 import pandas as pd
-from pandas import DataFrame
 
 from astro import sql as aql
 from astro.files import File
@@ -19,7 +16,6 @@ from astro.sql.table import Table, Metadata
 
 # connections
 S3_CONN_ID = "aws_default"
-SNOWFLAKE_CONN_ID = "snowflake_default"
 CURATED_ZONE = "curated"
 OUTPUT_CONN_ID = "postgres_conn"
 
@@ -108,11 +104,10 @@ def etl_subscriptions_analysis():
     init = EmptyOperator(task_id="init")
     finish = EmptyOperator(task_id="finish")
 
-    # TODO = get daily files
     # user
     user_file = aql.load_file(
         task_id="user_file",
-        input_file=File(path="s3://landing/user/user_2023_4_14_16", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/user/user_2023_7_17_13", filetype=FileType.JSON, conn_id=S3_CONN_ID),
         output_table=Table(name="user", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro")),
         if_exists="replace",
         use_native_support=True,
@@ -122,7 +117,7 @@ def etl_subscriptions_analysis():
     # subscription
     subscription_file = aql.load_file(
         task_id="subscription_file",
-        input_file=File(path="s3://landing/subscription/subscription_2023_4_14_16", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/subscription/subscription_2023_7_17_13", filetype=FileType.JSON, conn_id=S3_CONN_ID),
         output_table=Table(name="subscription", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro")),
         if_exists="replace",
         use_native_support=True,
@@ -131,7 +126,6 @@ def etl_subscriptions_analysis():
 
     # sanitize sql queries
     # execute on database {side}
-    # TODO append or replace capability
     user_sanitize = sanitize_user(
         user=user_file,
         output_table=Table(name="sanitized_user", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro"))
@@ -178,10 +172,10 @@ def etl_subscriptions_analysis():
         if_exists="replace",
     )
 
-    # load into snowflake warehouse
+    # load into data warehouse [postgres]
     subscriptions_curated_snowflake = aql.load_file(
         input_file=File(path="s3://curated/{{ ds }}/subscriptions.parquet", filetype=FileType.PARQUET, conn_id=S3_CONN_ID),
-        output_table=Table(name="subscriptions", conn_id=SNOWFLAKE_CONN_ID, metadata=Metadata(schema="astro")),
+        output_table=Table(name="subscriptions", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro")),
         task_id="subscriptions_curated_snowflake",
         if_exists="replace",
         use_native_support=True,
