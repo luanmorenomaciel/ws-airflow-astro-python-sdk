@@ -2,7 +2,6 @@
 https://airflowsummit.org/sessions/2023/workshops/astro-python-sdk-developing-modern-etl-pipelines-on-apache-airflow/
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [Airflowctl](https://github.com/kaxil/airflowctl)
 - [Astro CLI](https://docs.astronomer.io/astro/cli/install-cli)
 - [Astro Python SDK](https://github.com/astronomer/astro-sdk)
 
