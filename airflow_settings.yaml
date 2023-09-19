@@ -7,15 +7,21 @@
 
 airflow:
   connections:
-    - conn_id:
-      conn_type:
-      conn_host:
+    - conn_id: aws_default
+      conn_type: aws
       conn_schema:
-      conn_login:
-      conn_password:
+      conn_login: data-lake
+      conn_password: 12620ee6-2162-11ee-be56-0242ac120002
       conn_port:
       conn_extra:
-        example_extra_field: example-value
+        endpoint_url: http://20.122.206.152
+    - conn_id: postgres_conn
+      conn_type: postgres
+      conn_host: postgres
+      conn_schema: postgres
+      conn_login: postgres
+      conn_password: postgres
+      conn_port: 5432
   pools:
     - pool_name:
       pool_slot:

@@ -51,7 +51,7 @@ def elt_with_transforms():
 
         load_s3_to_database = aql.load_file(
             task_id="load_s3_to_database",
-            input_file=File(path="s3://landing/stripe/stripe_2023_4_13", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+            input_file=File(path="s3://landing/stripe/stripe_2023_7_17", filetype=FileType.JSON, conn_id=S3_CONN_ID),
             output_table=Table(name="stripe", conn_id=POSTGRES_CONN_ID, metadata=Metadata(schema="astro")),
             if_exists="replace",
             use_native_support=True,
