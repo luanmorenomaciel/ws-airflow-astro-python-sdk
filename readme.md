@@ -61,12 +61,20 @@ astro dev start
 http://localhost:8080
 ```
 
+NOTE - behind the scenes, astro is using docker to setup services. If you run into port bind issue (for example, `Error: error building, (re)creating or starting project containers: Error response from daemon: Ports are not available: exposing port TCP 127.0.0.1:5432 -> 0.0.0.0:0: listen tcp 127.0.0.1:5432: bind: address already in use`), you'll need to stop the process that's using the conflicting port.
+
+What's going on is that your Mac already has Postgres running on that port. 
+
+To resolve this when using `brew`, stop the Postgres process.
+1. Find the exact name of the installed postgres instance, `brew services list`
+2. Stop the postgres service, `brew services stop postgresql@14`
+
 ### Astro Python SDK
 Use Astro Python SDK to develop DAGs in an effortless way
 
-https://docs.astronomer.io/astro/develop-project
-https://docs.astronomer.io/learn/astro-python-sdk-etl
-https://astro-sdk-python.readthedocs.io/en/stable/
+https://docs.astronomer.io/astro/develop-project  
+https://docs.astronomer.io/learn/astro-python-sdk-etl  
+https://astro-sdk-python.readthedocs.io/en/stable/  
 
 ```shell
 pip install apache-airflow
