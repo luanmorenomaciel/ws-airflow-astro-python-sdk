@@ -41,10 +41,10 @@ subscriptions_dataset = "astro+s3://aws_default@curated/subscriptions.parquet"
     tags=['development', 'elt', 'astrosdk']
 )
 def etl_consumer():
-
+    path = subscriptions_dataset[6:].replace("aws_default@", "")
     subscriptions = aql.load_file(
         task_id="load_subscriptions",
-        input_file=File(path=subscriptions_dataset, conn_id=S3_CONN_ID),
+        input_file=File(path=path, conn_id=S3_CONN_ID),
         use_native_support=True,
         columns_names_capitalization="original"
     )

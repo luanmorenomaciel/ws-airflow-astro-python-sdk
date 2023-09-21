@@ -168,7 +168,7 @@ def etl_subscriptions_analysis():
     export_to_s3_curated_zone = aql.export_to_file(
         task_id="export_to_s3_curated_zone",
         input_data=final_curated_subscriptions_ds,
-        output_file=File(path="s3://curated/{{ ds }}/subscriptions.parquet", conn_id=S3_CONN_ID),
+        output_file=File(path="s3://curated/subscriptions.parquet", conn_id=S3_CONN_ID),
         if_exists="replace",
     )
 
