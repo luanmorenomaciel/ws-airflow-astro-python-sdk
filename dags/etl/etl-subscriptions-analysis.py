@@ -173,10 +173,10 @@ def etl_subscriptions_analysis():
     )
 
     # load into data warehouse [postgres]
-    subscriptions_curated_snowflake = aql.load_file(
+    subscriptions_curated_postgres = aql.load_file(
         input_file=File(path="s3://curated/{{ ds }}/subscriptions.parquet", filetype=FileType.PARQUET, conn_id=S3_CONN_ID),
         output_table=Table(name="subscriptions", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro")),
-        task_id="subscriptions_curated_snowflake",
+        task_id="subscriptions_curated_postgres",
         if_exists="replace",
         use_native_support=True,
         columns_names_capitalization="original"
@@ -190,7 +190,7 @@ def etl_subscriptions_analysis():
         final_curated_subscriptions_ds,
         quality_rules_check_table_level,
         export_to_s3_curated_zone,
-        subscriptions_curated_snowflake,
+        subscriptions_curated_postgres,
         finish
     )
 
