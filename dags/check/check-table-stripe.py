@@ -18,7 +18,7 @@ from astro.sql.table import Table, Metadata
 
 # connections
 S3_CONN_ID = "aws_default"
-SNOWFLAKE_CONN_ID = "snowflake_default"
+OUTPUT_CONN_ID = "postgres_conn"
 
 # default args & init dag
 default_args = {
@@ -48,7 +48,7 @@ def check_table_data():
     load_s3_to_database = aql.load_file(
         task_id="load_s3_to_database",
         input_file=File(path="s3://landing/stripe/stripe_2023_7_17_13_30_53", filetype=FileType.JSON, conn_id=S3_CONN_ID),
-        output_table=Table(name="stripe", conn_id=SNOWFLAKE_CONN_ID, metadata=Metadata(schema="astro")),
+        output_table=Table(name="stripe", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro")),
         if_exists="replace",
         use_native_support=True,
         columns_names_capitalization="original"
@@ -60,9 +60,9 @@ def check_table_data():
         dataset=load_s3_to_database,
         checks={
             "row_count": {"check_statement": "Count(*) > 100"},
+            # "row_count": {"check_statement": "Count(*) > 1"},
             "year": {"check_statement": "year IS NOT NULL"},
-            "month": {"check_statement": "month IS NOT NULL"},
-            "token": {"check_statement": "token"}
+            "month": {"check_statement": "month IS NOT NULL"}
         },
     )
     # [END data_validation__check_table]

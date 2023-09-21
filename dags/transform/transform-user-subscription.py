@@ -21,7 +21,7 @@ from astro.sql.table import Table, Metadata
 
 # connections
 S3_CONN_ID = "aws_default"
-OUTPUT_CONN_ID = "snowflake_default"
+OUTPUT_CONN_ID = "postgres_conn"
 
 # default args & init dag
 default_args = {
@@ -74,7 +74,7 @@ def transform_etl():
     # users
     df_user = aql.load_file(
         task_id="df_user",
-        input_file=File(path="s3://landing/user/user_2023_8_31_13_47_9", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/user/user_2023_7_17_13_30_50", filetype=FileType.JSON, conn_id=S3_CONN_ID),
         output_table=Table(name="user", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro"),),
         if_exists="replace",
         use_native_support=True,
