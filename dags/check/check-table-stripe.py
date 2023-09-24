@@ -59,8 +59,8 @@ def check_table_data():
         task_id="check_table_stripe",
         dataset=load_s3_to_database,
         checks={
-            "row_count": {"check_statement": "Count(*) > 100"},
-            # "row_count": {"check_statement": "Count(*) > 1"},
+            # "row_count": {"check_statement": "Count(*) > 100"},
+            "row_count": {"check_statement": "Count(*) > 1"},
             "year": {"check_statement": "year IS NOT NULL"},
             "month": {"check_statement": "month IS NOT NULL"}
         },

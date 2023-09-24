@@ -74,7 +74,7 @@ def transform_etl():
     # users
     df_user = aql.load_file(
         task_id="df_user",
-        input_file=File(path="s3://landing/user/user_2023_7_17_13_30_50", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/user/user_2023_7_17_13", filetype=FileType.JSON, conn_id=S3_CONN_ID),
         output_table=Table(name="user", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro"),),
         if_exists="replace",
         use_native_support=True,
@@ -84,7 +84,7 @@ def transform_etl():
     # subscriptions
     df_subscription = aql.load_file(
         task_id="df_subscription",
-        input_file=File(path="s3://landing/subscription/subscription_2023_7_17_13_30_54", filetype=FileType.JSON, conn_id=S3_CONN_ID),
+        input_file=File(path="s3://landing/subscription/subscription_2023_7_17_13", filetype=FileType.JSON, conn_id=S3_CONN_ID),
         output_table=Table(name="subscription", conn_id=OUTPUT_CONN_ID, metadata=Metadata(schema="astro"),),
         if_exists="replace",
         use_native_support=True,
